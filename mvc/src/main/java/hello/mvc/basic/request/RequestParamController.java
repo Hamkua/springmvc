@@ -1,8 +1,10 @@
 package hello.mvc.basic.request;
 
 
+import hello.mvc.basic.HelloData;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -124,6 +126,39 @@ public class RequestParamController {
         log.info("username={}, age={}", paramMap.get("username"),
                 paramMap.get("age"));
         return "ok";
-        
+
     }
+
+
+    /*
+    @ModelAttribute 사용
+    log.info(“helloData = {}”, helloData); 객체를 넣어도 보기좋게 출력해줌 ->  helloData=HelloData(username=어쩌구, age=어쩌구)
+     */
+
+    @ResponseBody
+    @RequestMapping("/model-attribute-v1")
+    public String modelAttributeV1(@ModelAttribute HelloData helloData) {
+
+        log.info("username={}, age={}", helloData.getUsername(),
+                helloData.getAge());
+        return "ok";
+
+    }
+
+
+
+    /*
+     @ModelAttribute 생략 가능
+     String, int 같은 단순 타입 = @RequestParam
+     argument resolver 로 지정해둔 타입 외 = @ModelAttribute
+    */
+    @ResponseBody
+    @RequestMapping("/model-attribute-v2")
+    public String modelAttributeV2(HelloData helloData) {
+        log.info("username={}, age={}", helloData.getUsername(),
+                helloData.getAge());
+        return "ok";
+    }
+
+
 }
